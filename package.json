@@ -15,18 +15,23 @@
     "pre-commit": "yarn eslint && yarn prettier"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^2.2.0",
     "@reduxjs/toolkit": "^1.8.2",
     "firebase": "^9.8.2",
+    "iconv-lite": "^0.6.3",
     "moment": "^2.29.3",
     "next": "^12.1.6",
     "next-redux-wrapper": "^7.0.5",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-modal": "^3.15.1",
+    "react-pdf": "^5.7.2",
     "react-redux": "^8.0.2",
     "react-toastify": "^9.0.3",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "eslint": "8.17.0",

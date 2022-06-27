@@ -14,6 +14,56 @@ import {
 } from '../../store/users/UserSlice';
 import { get_profile_data } from '../../store/profile/ProfileSlice';
 import Image from 'next/image';
+import Modal from 'react-modal';
+import {
+  Page,
+  Text,
+  View,
+  // Image,
+  Document,
+  StyleSheet,
+  BlobProvider,
+} from '@react-pdf/renderer';
+
+const styles = StyleSheet.create({
+  page: {
+    backgroundColor: '#fff',
+    border: '15px solid #f00',
+  },
+  title: {
+    fontSize: '60px',
+    fontWeight: 'bold',
+    color: 'black',
+    marginTop: '20px',
+  },
+  section: {
+    margin: 6,
+    padding: 10,
+    fontSize: '30pt',
+    textAlign: 'center',
+  },
+  name: {
+    fontSize: '80px',
+    color: 'red',
+    marginTop: '60px',
+  },
+  image: {
+    width: '30%',
+    padding: 10,
+  },
+  grade: {
+    fontSize: '40px',
+    fontWeight: 'bold',
+    color: 'red',
+    marginTop: '40px',
+  },
+  point: {
+    fontSize: '40px',
+    fontWeight: 'bold',
+    color: 'red',
+    marginTop: '20px',
+  },
+});
 
 const Account = () => {
   const dispatch = useDispatch();
@@ -69,6 +119,37 @@ const Account = () => {
   useEffect(() => {
     dispatch(get_leader_board());
   }, [dispatch]);
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  // PDF Wrapper
+  const pdfText = () => {
+    return (
+      <Document>
+        <Page size='A4' orientation='landscape' style={styles.page}>
+          <View style={styles.section}>
+            <Text style={styles.title}>Profile</Text>
+            <Text style={styles.name}>{playerData.name}</Text>
+            <View style={styles.section}>
+              <Text>Alamat : {playerData.address}</Text>
+              <Text>Phone : {playerData.phone}</Text>
+              <Text style={styles.grade}>
+                Grade : {''}
+                <span className='float-right badge bg-warning'>
+                  {auth.data2.totalpoint <= 10 && 'Newbie'}
+                  {(auth.data2.totalpoint > 10) &
+                    (auth.data2.totalpoint <= 50) && 'Intermediate'}
+                  {auth.data2.totalpoint >= 50 && 'Pro Player'}
+                </span>
+              </Text>
+              <Text style={styles.point}>Point : {auth.data2.totalpoint}</Text>
+            </View>
+          </View>
+        </Page>
+      </Document>
+    );
+  };
+
   return (
     <>
       <Head>
@@ -103,6 +184,56 @@ const Account = () => {
                           <a className='float-right'>{auth.data.phone}</a>
                         </li>
                       </ul>
+                      <button
+                        className='btn btn-danger btn-block'
+                        onClick={() => setModalIsOpen(true)}
+                      >
+                        Profile
+                      </button>
+                      <Modal
+                        isOpen={modalIsOpen}
+                        ariaHideApp={false}
+                        onRequestClose={() => setModalIsOpen(false)}
+                        style={{
+                          overlay: {
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: 'rgba(255, 255, 255, 0.75)',
+                          },
+                          content: {
+                            position: 'absolute',
+                            top: '40px',
+                            left: '40px',
+                            right: '40px',
+                            bottom: '40px',
+                            border: '1px solid #ccc',
+                            background: '#343a40',
+                            overflow: 'auto',
+                            WebkitOverflowScrolling: 'touch',
+                            borderRadius: '4px',
+                            outline: 'none',
+                            padding: '20px',
+                            color: '#fff',
+                          },
+                        }}
+                      >
+                        <div style={{ height: '100%' }}>
+                          <button onClick={() => setModalIsOpen(false)}>
+                            Close
+                          </button>
+                          <BlobProvider document={pdfText()}>
+                            {({ url }) => (
+                              <iframe
+                                src={url}
+                                style={{ width: '100%', height: '100%' }}
+                              />
+                            )}
+                          </BlobProvider>
+                        </div>
+                      </Modal>
                     </>
                   ) : (
                     <>
@@ -150,7 +281,7 @@ const Account = () => {
                         Grade{' '}
                         <span className='float-right badge bg-warning'>
                           {auth.data2.totalpoint <= 10 && 'Newbie'}
-                          {(auth.data2.totalpoint >= 10) &
+                          {(auth.data2.totalpoint > 10) &
                             (auth.data2.totalpoint <= 50) && 'Intermediate'}
                           {auth.data2.totalpoint >= 50 && 'Pro Player'}
                         </span>
