@@ -3,11 +3,19 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     // Enables the styled-components SWC transform
-    styledComponents: true
+    styledComponents: true,
   },
-   eslint: {
+  eslint: {
     ignoreDuringBuilds: true,
   },
-}
+  images: {
+    domains: [
+      'wallpapercave.com',
+      'firebasestorage.googleapis.com',
+      'static8.depositphotos.com',
+      'upload.wikimedia.org',
+    ],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
