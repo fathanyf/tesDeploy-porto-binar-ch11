@@ -9,7 +9,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "eslint": "npx eslint -c ./.eslintrc.json **/*.{js,jsx} --fix",
+    "prettier": "npx prettier **/*.{js,jsx} --write --config ./.prettierrc.json",
+    "pre-commit": "yarn eslint && yarn prettier"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
@@ -27,6 +30,7 @@
   },
   "devDependencies": {
     "eslint": "8.17.0",
-    "eslint-config-next": "12.1.6"
+    "eslint-config-next": "12.1.6",
+    "prettier": "^2.7.1"
   }
 }

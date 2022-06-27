@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../config/firebase";
+import { createSlice } from '@reduxjs/toolkit';
+import { collection, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { db } from '../../config/firebase';
 
 export const get_profile_data = (id) => {
   return async (dispatch) => {
     const fetchData = async () => {
-      const docRef = doc(db, "users", id);
+      const docRef = doc(db, 'users', id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         dispatch(profileData(docSnap.data()));
@@ -18,7 +18,7 @@ export const get_profile_data = (id) => {
 export const get_total_point = (id) => {
   return async (dispatch) => {
     const fetchData = async () => {
-      const docRef = doc(db, "gamepoint", id);
+      const docRef = doc(db, 'gamepoint', id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         dispatch(getPoint(docSnap.data()));
@@ -30,7 +30,7 @@ export const get_total_point = (id) => {
 
 export const update_profile_data = (data) => {
   return (dispatch) => {
-    const userUpdateRef = doc(db, "users", data.id);
+    const userUpdateRef = doc(db, 'users', data.id);
     let updateUser = {
       id: data.id,
       name: data.name,
@@ -50,16 +50,16 @@ export const update_profile_data = (data) => {
 };
 
 const initialState = {
-  profile: "",
+  profile: '',
   isLoadingProfile: true,
-  point: "",
+  point: '',
   isLoadingPoint: true,
-  updateProfile: "",
+  updateProfile: '',
   isLoadingUpdateProfile: true,
 };
 
 export const profileSlice = createSlice({
-  name: "profile",
+  name: 'profile',
   initialState,
   reducers: {
     profileData(state, action) {

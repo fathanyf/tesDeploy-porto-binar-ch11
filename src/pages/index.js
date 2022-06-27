@@ -1,7 +1,7 @@
-import Head from "next/head";
-import Link from "next/link";
-import { useSelector } from "react-redux";
-import GameList from "../components/game-components/GameList";
+import Head from 'next/head';
+import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import GameList from '../components/game-components/GameList';
 
 export default function Home() {
   const userData = useSelector((state) => state.user.user);
@@ -15,7 +15,12 @@ export default function Home() {
       <div>
         <header className='showcase'>
           <div className='showcase-top'>
-            <img src='/logochapter10.png' style={{ width: "325px" }} />
+            {/* eslint-disable-next-line @next/next/no-img-element*/}
+            <img
+              src='/logochapter10.png'
+              alt='logo'
+              style={{ width: '325px' }}
+            />
             <Link href='/auth/signin'>
               <a className='btn btn-rounded'>Sign In</a>
             </Link>

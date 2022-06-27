@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { selectUser } from "../../store/users/UserSlice";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { selectUser } from '../../store/users/UserSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   get_profile_data,
   update_profile_data,
-} from "../../store/profile/ProfileSlice";
-import { useRouter } from "next/router";
-import { toast } from "react-toastify";
+} from '../../store/profile/ProfileSlice';
+import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 import {
   getDownloadURL,
   ref,
   uploadBytes,
   uploadBytesResumable,
-} from "firebase/storage";
-import { db, storage } from "../../config/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+} from 'firebase/storage';
+import { db, storage } from '../../config/firebase';
+import { doc, updateDoc } from 'firebase/firestore';
 
 const UpdatePage = () => {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState('');
+  const [avatar, setAvatar] = useState('');
 
+  const auth = useSelector((state) => state.user);
   const user = useSelector(selectUser);
   const id = user?.uid;
 
@@ -35,24 +36,24 @@ const UpdatePage = () => {
     }
   };
 
-  console.log("image--: ", avatar);
+  // console.log("image--: ", avatar);
 
   const handleImageSubmit = () => {
     const storageRef = ref(storage, user.uid + avatar.name);
 
     const uploadTask = uploadBytesResumable(storageRef, avatar);
     uploadTask.on(
-      "state_changed",
+      'state_changed',
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
+        console.log('Upload is ' + progress + '% done');
         switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
+          case 'paused':
+            console.log('Upload is paused');
             break;
-          case "running":
-            console.log("Upload is running");
+          case 'running':
+            console.log('Upload is running');
             break;
           default:
             break;
@@ -64,6 +65,7 @@ const UpdatePage = () => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setAvatar(downloadURL.toString());
+          toast.success('Image uploaded!');
         });
       }
     );
@@ -75,21 +77,28 @@ const UpdatePage = () => {
   useEffect(() => {
     if (id) {
       dispatch(get_profile_data(id));
-      setName(profileData.name);
-      setAddress(profileData.address);
-      setPhone(profileData.phone);
-      setAvatar(profileData.avatar);
+      setName(auth.data.name);
+      setAddress(auth.data.address);
+      setPhone(auth.data.phone);
+      setAvatar(auth.data.avatar);
     }
-  }, [dispatch, id]);
+  }, [
+    dispatch,
+    auth.data.name,
+    auth.data.address,
+    auth.data.phone,
+    auth.data.avatar,
+    id,
+  ]);
 
   const handleSubmit = (e) => {
     try {
       e.preventDefault();
-      const profileCollectionRef = doc(db, "gamepoint", id);
+      const profileCollectionRef = doc(db, 'gamepoint', id);
       if (avatar == null) return;
       const imageRef = ref(storage, `images/${avatar.name}`);
       uploadBytes(imageRef, avatar).then((snapshot) => {
-        let avatar = "";
+        let avatar = '';
         getDownloadURL(snapshot.ref).then((url) => {
           avatar = url;
           dispatch(update_profile_data({ id, name, address, phone, avatar }));
@@ -97,8 +106,8 @@ const UpdatePage = () => {
         });
       });
       console.log(avatar);
-      router.push("/home");
-      toast.success("Update Successfully");
+      router.push('/home');
+      toast.success('Update Successfully');
     } catch (error) {
       toast.error(error.message);
     }
@@ -159,7 +168,8 @@ const UpdatePage = () => {
                     <button
                       onClick={handleImageSubmit}
                       type='submit'
-                      className='btn btn-danger btn-block'>
+                      className='btn btn-danger btn-block'
+                    >
                       Update
                     </button>
                   </div>

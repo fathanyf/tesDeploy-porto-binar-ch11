@@ -1,15 +1,15 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDm7l4CW9g-cI8NkhGQNgscymbh4UBY9dw",
-  authDomain: "binar-ch10-v1.firebaseapp.com",
-  projectId: "binar-ch10-v1",
-  storageBucket: "binar-ch10-v1.appspot.com",
-  messagingSenderId: "71450586076",
-  appId: "1:71450586076:web:24068f89e06ae36ace3d19"
+  apiKey: 'AIzaSyDm7l4CW9g-cI8NkhGQNgscymbh4UBY9dw',
+  authDomain: 'binar-ch10-v1.firebaseapp.com',
+  projectId: 'binar-ch10-v1',
+  storageBucket: 'binar-ch10-v1.appspot.com',
+  messagingSenderId: '71450586076',
+  appId: '1:71450586076:web:24068f89e06ae36ace3d19',
 };
 
 // Initialize Firebase

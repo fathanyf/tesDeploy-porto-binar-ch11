@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   collection,
   doc,
@@ -6,32 +6,32 @@ import {
   getDocs,
   query,
   where,
-} from "firebase/firestore";
-import { db } from "../../config/firebase";
+} from 'firebase/firestore';
+import { db } from '../../config/firebase';
 
 export const fetchUserGame = createAsyncThunk(
-  "auth/fetchUserGame",
+  'auth/fetchUserGame',
   async (uid, thunkAPI) => {
-    const userDocRef = doc(db, "users", uid);
+    const userDocRef = doc(db, 'users', uid);
     const response = await getDoc(userDocRef);
     const data = response.data();
 
     return {
       ...data,
       createdAt: {
-        nanoseconds: data.createdAt.nanoseconds + "",
-        seconds: data.createdAt.seconds + "",
+        nanoseconds: data.createdAt.nanoseconds + '',
+        seconds: data.createdAt.seconds + '',
       },
     };
   }
 );
 
 export const fetchUserGamePoint = createAsyncThunk(
-  "auth/fetchUserGamePoint",
+  'auth/fetchUserGamePoint',
   async (uid, thunkAPI) => {
     const queries = query(
-      collection(db, "gamepoint"),
-      where("playerId", "==", uid || "")
+      collection(db, 'gamepoint'),
+      where('playerId', '==', uid || '')
     );
     try {
       const snapshot = await getDocs(queries);
@@ -53,25 +53,25 @@ export const fetchUserGamePoint = createAsyncThunk(
 );
 
 export const userSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: {
     user: null,
     data: {
-      address: "",
-      avatar: "",
-      createdAt: "",
-      name: "",
-      phone: "",
-      playerId: "",
+      address: '',
+      avatar: '',
+      createdAt: '',
+      name: '',
+      phone: '',
+      playerId: '',
     },
     data2: {
-      avatar: "",
-      name: "",
-      playerId: "",
-      totalpoint: "",
-      updatedAt: "",
+      avatar: '',
+      name: '',
+      playerId: '',
+      totalpoint: '',
+      updatedAt: '',
     },
-    id: "",
+    id: '',
   },
   reducers: {
     login: (state, action) => {
