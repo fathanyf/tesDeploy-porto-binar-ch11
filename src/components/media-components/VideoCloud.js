@@ -52,7 +52,6 @@ const VideoCloud = () =>{
           </form>
             </section>
             < section>
-            <h4>Video Will Appear After Upload</h4>
             {videoPublicId && (
             <>
               <video
