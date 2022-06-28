@@ -81,6 +81,12 @@ const Navbar = () => {
                                             Files List
                                         </a>
                                     </Link>
+                                    <Link href='/media/video'>
+                                        <a className='dropdown-item'>
+                                            <i className='bi bi-list mr-4' />
+                                            Video
+                                        </a>
+                                    </Link>
                                 </div>
                             </li>
                         </ul>
