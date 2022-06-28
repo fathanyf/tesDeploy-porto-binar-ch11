@@ -24,6 +24,7 @@ import {
   StyleSheet,
   BlobProvider,
 } from '@react-pdf/renderer';
+import UpdatePage from './profile';
 
 const styles = StyleSheet.create({
   page: {
@@ -121,6 +122,7 @@ const Account = () => {
   }, [dispatch]);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpen2, setModalIsOpen2] = useState(false);
 
   // PDF Wrapper
   const pdfText = () => {
@@ -184,11 +186,55 @@ const Account = () => {
                           <a className='float-right'>{auth.data.phone}</a>
                         </li>
                       </ul>
+
+                      {/* Update Profile */}
+                      <button
+                        className='btn btn-danger btn-block'
+                        onClick={() => setModalIsOpen2(true)}
+                      >
+                        Update Profile
+                      </button>
+                      <Modal
+                        isOpen={modalIsOpen2}
+                        ariaHideApp={false}
+                        onRequestClose={() => setModalIsOpen2(false)}
+                        style={{
+                          overlay: {
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: 'rgba(255, 255, 255, 0.75)',
+                          },
+                          content: {
+                            position: 'absolute',
+                            top: '90px',
+                            left: '285px',
+                            right: '285px',
+                            bottom: '90px',
+                            border: '1px solid #ccc',
+                            background: '#343a40',
+                            overflow: 'auto',
+                            WebkitOverflowScrolling: 'touch',
+                            borderRadius: '4px',
+                            outline: 'none',
+                            padding: '20px',
+                            color: '#fff',
+                          },
+                        }}
+                      >
+                        <div style={{ height: '100%' }}>
+                          <UpdatePage />
+                        </div>
+                      </Modal>
+
+                      {/* Generate Profile */}
                       <button
                         className='btn btn-danger btn-block'
                         onClick={() => setModalIsOpen(true)}
                       >
-                        Profile
+                        Certificate
                       </button>
                       <Modal
                         isOpen={modalIsOpen}
