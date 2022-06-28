@@ -5,6 +5,9 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
+import Modal from 'react-modal';
+import { useState } from 'react';
+import UpdatePage from '../../pages/account/profile';
 
 const Navbar = () => {
   const user = useSelector(selectUser);
@@ -19,6 +22,8 @@ const Navbar = () => {
     toast.warning('You are now logout');
     router.push('/auth/signin');
   };
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   return (
     <>
       <nav className='navbar navbar-expand-md navbar-dark navbar-dark'>
@@ -75,12 +80,49 @@ const Navbar = () => {
                 <span>Manage User</span>
               </a>
               <div className='dropdown-menu dropdown-menu-lg dropdown-menu-right dark-mode'>
-                <Link href='/account/profile'>
-                  <a className='dropdown-item'>
-                    <i className='bi bi-person-bounding-box mr-4' />
-                    Update Profile
-                  </a>
-                </Link>
+                <a
+                  href='#'
+                  className='dropdown-item'
+                  onClick={() => setModalIsOpen(true)}
+                >
+                  <i className='bi bi-person-bounding-box mr-4' />
+                  Update Profile
+                </a>
+                <Modal
+                  isOpen={modalIsOpen}
+                  ariaHideApp={false}
+                  onRequestClose={() => setModalIsOpen(false)}
+                  style={{
+                    overlay: {
+                      position: 'fixed',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: 'rgba(255, 255, 255, 0.75)',
+                    },
+                    content: {
+                      position: 'absolute',
+                      top: '90px',
+                      left: '280px',
+                      right: '280px',
+                      bottom: '90px',
+                      border: '1px solid #ccc',
+                      background: '#343a40',
+                      overflow: 'auto',
+                      WebkitOverflowScrolling: 'touch',
+                      borderRadius: '4px',
+                      outline: 'none',
+                      padding: '20px',
+                      color: '#fff',
+                    },
+                  }}
+                >
+                  <div style={{ height: '100%' }}>
+                    {/* <button onClick={() => setModalIsOpen(false)}>Close</button> */}
+                    <UpdatePage />
+                  </div>
+                </Modal>
                 <hr />
                 <a href='#' className='dropdown-item'>
                   <i className='bi bi-key-fill mr-4' /> Reset Password
