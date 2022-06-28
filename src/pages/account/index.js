@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { get_game_board } from '../../store/games/GamesSlice';
 import { get_leader_board, get_player } from '../../store/players/PlayerSlice';
 import {
+  fetchOtherUserGamePoint,
   fetchUserGame,
   fetchUserGamePoint,
   selectUser,
@@ -97,6 +98,12 @@ const Account = () => {
       // dispatch(fetchUserGame())
     }
   }, [auth.user?.uid, dispatch]);
+
+  useEffect(() => {
+    if (playerData?.id) {
+      dispatch(fetchOtherUserGamePoint(playerData?.id));
+    }
+  }, [dispatch, id, playerData?.id]);
 
   // console.log('data', data);
   // console.log('player', playerData);
@@ -313,25 +320,26 @@ const Account = () => {
                   <h5 className='p-2 text-center'>Game History</h5>
                 </div>
                 <div className='card-footer p-0'>
-                  <ul className='nav flex-column'>
-                    <li className='nav-item'>
-                      <a href='#' className='nav-link'>
-                        RPS Points{' '}
-                        <span className='float-right badge bg-warning'>
-                          {auth.data2.totalpoint}
-                        </span>
-                      </a>
-                    </li>
-                    <li className='nav-item'>
-                      <a href='#' className='nav-link'>
-                        Grade{' '}
-                        <span className='float-right badge bg-warning'>
-                          {auth.data2.totalpoint <= 10 && 'Newbie'}
-                          {(auth.data2.totalpoint > 10) &
-                            (auth.data2.totalpoint <= 50) && 'Intermediate'}
-                          {auth.data2.totalpoint >= 50 && 'Pro Player'}
-                        </span>
-                        {/* {auth.data2.totalpoint <= 10 && (
+                  {id === auth.user?.uid ? (
+                    <ul className='nav flex-column'>
+                      <li className='nav-item'>
+                        <a href='#' className='nav-link'>
+                          RPS Points{' '}
+                          <span className='float-right badge bg-warning'>
+                            {auth.data2.totalpoint}
+                          </span>
+                        </a>
+                      </li>
+                      <li className='nav-item'>
+                        <a href='#' className='nav-link'>
+                          Grade{' '}
+                          <span className='float-right badge bg-warning'>
+                            {auth.data2.totalpoint <= 10 && 'Newbie'}
+                            {(auth.data2.totalpoint >= 10) &
+                              (auth.data2.totalpoint <= 50) && 'Intermediate'}
+                            {auth.data2.totalpoint >= 50 && 'Pro Player'}
+                          </span>
+                          {/* {auth.data2.totalpoint <= 10 && (
                           <span className='float-right badge bg-warning'>
                             Newbie
                           </span>
@@ -347,9 +355,50 @@ const Account = () => {
                             Pro Player
                           </span>
                         )} */}
-                      </a>
-                    </li>
-                  </ul>
+                        </a>
+                      </li>
+                    </ul>
+
+                  ) : (
+                    <ul className='nav flex-column'>
+                      <li className='nav-item'>
+                        <a href='#' className='nav-link'>
+                          RPS Points{' '}
+                          <span className='float-right badge bg-warning'>
+                            {auth.data2.totalpoint}
+                          </span>
+                        </a>
+                      </li>
+                      <li className='nav-item'>
+                        <a href='#' className='nav-link'>
+                          Grade{' '}
+                          <span className='float-right badge bg-warning'>
+                            {auth.data2.totalpoint <= 10 && 'Newbie'}
+                            {(auth.data2.totalpoint >= 10) &
+                              (auth.data2.totalpoint <= 50) && 'Intermediate'}
+                            {auth.data2.totalpoint >= 50 && 'Pro Player'}
+                          </span>
+                          {/* {auth.data2.totalpoint <= 10 && (
+                          <span className='float-right badge bg-warning'>
+                            Newbie
+                          </span>
+
+                        )}
+                        {auth.data2.totalpoint >= 10 & auth.data2.totalpoint <= 50 && (
+                          <span className='float-right badge bg-warning'>
+                            Intermediate
+                          </span>
+                        )}
+                        {auth.data2.totalpoint >= 50 && (
+                          <span className='float-right badge bg-warning'>
+                            Pro Player
+                          </span>
+                        )} */}
+                        </a>
+                      </li>
+                    </ul>
+                  )
+                  }
                 </div>
                 <div className='card-footer p-0'>
                   <ul className='nav flex-column'></ul>
