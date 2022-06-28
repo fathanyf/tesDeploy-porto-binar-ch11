@@ -52,6 +52,34 @@ export const fetchUserGamePoint = createAsyncThunk(
   }
 );
 
+export const fetchOtherUserGamePoint = createAsyncThunk(
+  'auth/fetchOtherUserGamePoint',
+  async (id) => {
+    const queries = query(
+      collection(db, 'gamepoint'),
+      where('playerId', '==', id || '')
+    );
+
+    try {
+      const snapshot = await getDocs(queries);
+
+      const [doc] = snapshot.docs;
+      const data = doc.data();
+      console.log(data);
+
+      return {
+        ...data,
+        // updatedAt: {
+        //   nanoseconds: data.updatedAt.nanoseconds + '',
+        //   seconds: data.updatedAt.seconds + '',
+        // }
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -92,6 +120,9 @@ export const userSlice = createSlice({
       state.data = action.payload;
     });
     builder.addCase(fetchUserGamePoint.fulfilled, (state, action) => {
+      state.data2 = action.payload;
+    });
+    builder.addCase(fetchOtherUserGamePoint.fulfilled, (state, action) => {
       state.data2 = action.payload;
     });
   },
