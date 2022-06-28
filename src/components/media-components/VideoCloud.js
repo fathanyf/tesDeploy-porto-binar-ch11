@@ -10,8 +10,8 @@ const VideoCloud = () =>{
   const openWidget = () => {
     const widget = window.cloudinary.createUploadWidget(
       {
-        cloudName: "cloudfathan",
-        uploadPreset: "xntii28f"
+        cloudName: "binar-cloud",
+        uploadPreset: "lznoc89x"
       },
       (error, result) => {
         if (result.event === "success") {
@@ -56,7 +56,7 @@ const VideoCloud = () =>{
             {videoPublicId && (
             <>
               <video
-                src={`https://res.cloudinary.com/cloudfathan/video/upload/l_video:${videoPublicId}/fl_layer_apply/${videoPublicId}.mp4`}
+                src={`https://res.cloudinary.com/binar-cloud/video/upload/l_video:${videoPublicId}/fl_layer_apply/${videoPublicId}.mp4`}
                 alt={alt}
                 controls
                 autoPlay
