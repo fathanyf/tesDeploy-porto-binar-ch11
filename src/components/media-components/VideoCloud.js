@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
-const VideoCloud = () => {
+
+const VideoCloud = () =>{
+
   const [videoPublicId, setVideoPublicId] = useState(null);
   const [alt, setAlt] = useState(null);
-  const [audioPublicId, setAudioPublicId] = useState(null);
 
   const openWidget = () => {
-
     const widget = window.cloudinary.createUploadWidget(
       {
         cloudName: "cloudfathan",
@@ -25,56 +25,52 @@ const VideoCloud = () => {
           }
         }
       }
-    );
+    )
     widget.open();
-  };
+  }
 
   return (
-    <div>
-      <main >
-        <section className="left-side">
-          <Helmet>
-            <meta charSet="utf-8" />
-            <script
-              src="https://widget.Cloudinary.com/v2.0/global/all.js"
-              type="text/javascript"
-            ></script>
-          </Helmet>
-          <form>
-            <button
-              type="button"
-              className="btn widget-btn"
-              onClick={openWidget}
-            >
-              Upload Video
-            </button>
-            {/* <button
-              type="button"
-              className="btn widget-btn"
-              onClick={openWidget}
-            >
-              Upload Audio Video
-            </button> */}
+    <HelmetProvider>
+    <div >
+        < main>
+            < section>
+                  <Helmet>
+                  <meta  />
+                  <script
+                    src="https://widget.cloudinary.com/v2.0/global/all.js"
+                    type="text/javascript"
+                  ></script>
+                  </Helmet>
+                <form>
+                   <button
+                       type="button"
+                       className="btn widget-btn"
+                       onClick={openWidget}
+                    >
+                      Upload Video
+                    </button>
           </form>
-          < br />
-        </section>
-        <section className="right-side">
-
-
+            </section>
+            < section>
+            <h4>Video Will Appear After Upload</h4>
+            {videoPublicId && (
             <>
               <video
                 src={`https://res.cloudinary.com/cloudfathan/video/upload/l_video:${videoPublicId}/fl_layer_apply/${videoPublicId}.mp4`}
                 alt={alt}
                 controls
                 autoPlay
-                height="200"
-                width="240"
+                height="300"
+                width="250"
               ></video>
             </>
-
-        </section>
-      </main>
+          )}
+            </section>
+            
+        </main>
     </div>
-  );
-};
-export default VideoCloud;
+    </HelmetProvider>
+  )
+}
+
+export default VideoCloud
