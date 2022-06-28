@@ -3,7 +3,7 @@ import GameBoard from '../../components/game-components/GameBoard';
 import LeaderBoard from '../../components/player-components/LeaderBoard';
 import PlayerList from '../../components/player-components/PlayerList';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { get_game_board } from '../../store/games/GamesSlice';
 import { get_leader_board, get_player } from '../../store/players/PlayerSlice';
@@ -78,8 +78,6 @@ const Account = () => {
   const user = useSelector(selectUser);
   const auth = useSelector((state) => state.user);
 
-  console.log(auth.data2.avatar);
-
   const handleOnError = () => {
     setImageSrc(auth.data2.avatar);
   };
@@ -104,11 +102,6 @@ const Account = () => {
       dispatch(fetchOtherUserGamePoint(playerData?.id));
     }
   }, [dispatch, id, playerData?.id]);
-
-  // console.log('data', data);
-  // console.log('player', playerData);
-  // console.log('leader', leaderBoard);
-  // console.log('user', user);
 
   useEffect(() => {
     if (id) {
@@ -147,7 +140,7 @@ const Account = () => {
                 <span className='float-right badge bg-warning'>
                   {auth.data2.totalpoint <= 10 && 'Newbie'}
                   {(auth.data2.totalpoint > 10) &
-                    (auth.data2.totalpoint <= 50) && 'Intermediate'}
+                    (auth.data2.totalpoint <= 49) && 'Intermediate'}
                   {auth.data2.totalpoint >= 50 && 'Pro Player'}
                 </span>
               </Text>
@@ -158,6 +151,18 @@ const Account = () => {
       </Document>
     );
   };
+
+  const rank = useMemo(() => {
+    if (auth.data2.totalpoint > 10 && auth.data2.totalpoint <= 49) {
+      return 'Intermediate';
+    }
+
+    if (auth.data2.totalpoint >= 50) {
+      return 'Pro Player';
+    }
+
+    return 'Newbie';
+  }, [auth.data2.totalpoint]);
 
   return (
     <>
@@ -332,29 +337,10 @@ const Account = () => {
                       </li>
                       <li className='nav-item'>
                         <a href='#' className='nav-link'>
-                          Grade{' '}
+                          Grade
                           <span className='float-right badge bg-warning'>
-                            {auth.data2.totalpoint <= 10 && 'Newbie'}
-                            {(auth.data2.totalpoint >= 10) &
-                              (auth.data2.totalpoint <= 50) && 'Intermediate'}
-                            {auth.data2.totalpoint >= 50 && 'Pro Player'}
+                            {rank}
                           </span>
-                          {/* {auth.data2.totalpoint <= 10 && (
-                          <span className='float-right badge bg-warning'>
-                            Newbie
-                          </span>
-
-                        )}
-                        {auth.data2.totalpoint >= 10 & auth.data2.totalpoint <= 50 && (
-                          <span className='float-right badge bg-warning'>
-                            Intermediate
-                          </span>
-                        )}
-                        {auth.data2.totalpoint >= 50 && (
-                          <span className='float-right badge bg-warning'>
-                            Pro Player
-                          </span>
-                        )} */}
                         </a>
                       </li>
                     </ul>
@@ -373,27 +359,8 @@ const Account = () => {
                         <a href='#' className='nav-link'>
                           Grade{' '}
                           <span className='float-right badge bg-warning'>
-                            {auth.data2.totalpoint <= 10 && 'Newbie'}
-                            {(auth.data2.totalpoint >= 10) &
-                              (auth.data2.totalpoint <= 50) && 'Intermediate'}
-                            {auth.data2.totalpoint >= 50 && 'Pro Player'}
+                            {rank}
                           </span>
-                          {/* {auth.data2.totalpoint <= 10 && (
-                          <span className='float-right badge bg-warning'>
-                            Newbie
-                          </span>
-
-                        )}
-                        {auth.data2.totalpoint >= 10 & auth.data2.totalpoint <= 50 && (
-                          <span className='float-right badge bg-warning'>
-                            Intermediate
-                          </span>
-                        )}
-                        {auth.data2.totalpoint >= 50 && (
-                          <span className='float-right badge bg-warning'>
-                            Pro Player
-                          </span>
-                        )} */}
                         </a>
                       </li>
                     </ul>
