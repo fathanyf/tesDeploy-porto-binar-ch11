@@ -10,94 +10,114 @@ import { useState } from 'react';
 import UpdatePage from '../../pages/account/profile';
 
 const Navbar = () => {
-  const user = useSelector(selectUser);
+    const user = useSelector(selectUser);
 
-  const router = useRouter();
+    const router = useRouter();
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  const handleLogout = () => {
-    dispatch(logout());
-    auth.signOut();
-    toast.warning('You are now logout');
-    router.push('/auth/signin');
-  };
+    const handleLogout = () => {
+        dispatch(logout());
+        auth.signOut();
+        toast.warning('You are now logout');
+        router.push('/auth/signin');
+    };
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  return (
-    <>
-      <nav className='navbar navbar-expand-md navbar-dark navbar-dark'>
-        <div className='container'>
-          <Link href='/home'>
-            <a className='navbar-brand'>
-              <Image
-                src='/logochapter10.png'
-                width='125px'
-                height='30px'
-                alt='logo chapter 10'
-              />
-            </a>
-          </Link>
-          <button
-            className='navbar-toggler order-1'
-            type='button'
-            data-toggle='collapse'
-            data-target='#navbarCollapse'
-            aria-controls='navbarCollapse'
-            aria-expanded='false'
-            aria-label='Toggle navigation'
-          >
-            <span className='navbar-toggler-icon' />
-          </button>
-          <div className='collapse navbar-collapse order-3' id='navbarCollapse'>
-            <ul className='navbar-nav'>
-              <Link className='nav-item' href={'/home'}>
-                <a className='nav-link'>
-                  <i className='bi bi-controller mr-1'></i>
-                  <b>Home</b>
-                </a>
-              </Link>
-              <Link className='nav-item' href={'/games'}>
-                <a className='nav-link'>
-                  <i className='bi bi-joystick mr-1'></i>
-                  <b>Playground</b>
-                </a>
-              </Link>
-            </ul>
-          </div>
-          <ul className='order-1 order-md-3 navbar-nav navbar-no-expand ml-auto'>
-            <Link
-              className='nav-item'
-              href={{ pathname: '/account', query: { id: user?.uid } }}
-            >
-              <a className='nav-link'>
-                <i className='far fa-user-circle' /> {user?.email}
-              </a>
-            </Link>
-            <li className='nav-item dropdown bg-dark'>
-              <a className='nav-link' data-toggle='dropdown' href='#'>
-                <i className='bi bi-gear-fill mr-1' />
-                <span>Manage User</span>
-              </a>
-              <div className='dropdown-menu dropdown-menu-lg dropdown-menu-right dark-mode'>
-                <hr />
-                <a href='#' className='dropdown-item'>
-                  <i className='bi bi-key-fill mr-4' /> Reset Password
-                </a>
-                <hr />
-                <button
-                  className='dropdown-item dropdown-footer'
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </>
-  );
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    return (
+        <>
+            <nav className='navbar navbar-expand-md navbar-dark navbar-dark'>
+                <div className='container'>
+                    <Link href='/home'>
+                        <a className='navbar-brand'>
+                            <Image
+                                src='/logochapter10.png'
+                                width='125px'
+                                height='30px'
+                                alt='logo chapter 10'
+                            />
+                        </a>
+                    </Link>
+                    <button
+                        className='navbar-toggler order-1'
+                        type='button'
+                        data-toggle='collapse'
+                        data-target='#navbarCollapse'
+                        aria-controls='navbarCollapse'
+                        aria-expanded='false'
+                        aria-label='Toggle navigation'
+                    >
+                        <span className='navbar-toggler-icon' />
+                    </button>
+                    <div className='collapse navbar-collapse order-3' id='navbarCollapse'>
+                        <ul className='navbar-nav'>
+                            <Link className='nav-item' href={'/home'}>
+                                <a className='nav-link'>
+                                    <i className='bi bi-controller mr-1'></i>
+                                    <b>Home</b>
+                                </a>
+                            </Link>
+                            <Link className='nav-item' href={'/games'}>
+                                <a className='nav-link'>
+                                    <i className='bi bi-joystick mr-1'></i>
+                                    <b>Playground</b>
+                                </a>
+                            </Link>
+                            <li className='nav-item dropdown bg-dark'>
+                                <a className='nav-link' data-toggle='dropdown' href='#'>
+                                    <i className='bi bi-file-play mr-1' />
+                                    <span>Media</span>
+                                </a>
+                                <div className='dropdown-menu dropdown-menu-lg dropdown-menu-right dark-mode'>
+                                    <Link href='/media/upload'>
+                                        <a className='dropdown-item'>
+                                            <i className='bi bi-cloud-upload mr-4' />
+                                            Upload Files
+                                        </a>
+                                    </Link>
+                                    <Link href='/media/files'>
+                                        <a className='dropdown-item'>
+                                            <i className='bi bi-list mr-4' />
+                                            Files List
+                                        </a>
+                                    </Link>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul className='order-1 order-md-3 navbar-nav navbar-no-expand ml-auto'>
+                        <Link
+                            className='nav-item'
+                            href={{ pathname: '/account', query: { id: user?.uid } }}
+                        >
+                            <a className='nav-link'>
+                                <i className='far fa-user-circle' /> {user?.email}
+                            </a>
+                        </Link>
+                        <li className='nav-item dropdown bg-dark'>
+                            <a className='nav-link' data-toggle='dropdown' href='#'>
+                                <i className='bi bi-gear-fill mr-1' />
+                                <span>Manage User</span>
+                            </a>
+                            <div className='dropdown-menu dropdown-menu-lg dropdown-menu-right dark-mode'>
+                                <hr />
+                                <a href='#' className='dropdown-item'>
+                                    <i className='bi bi-key-fill mr-4' /> Reset Password
+                                </a>
+                                <hr />
+                                <button
+                                    className='dropdown-item dropdown-footer'
+                                    onClick={handleLogout}
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </>
+    );
 };
 
 export default Navbar;
