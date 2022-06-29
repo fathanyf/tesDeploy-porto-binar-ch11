@@ -32,9 +32,9 @@ const VideoCloud = () =>{
 
   return (
     <HelmetProvider>
-    <div >
+    <div>
         < main>
-            < section>
+            < section >
                   <Helmet>
                   <meta  />
                   <script
@@ -45,6 +45,7 @@ const VideoCloud = () =>{
                   </Helmet>
                 <form>
                    <button
+                      getByTestId="openWidget"
                        type="button"
                        className="btn widget-btn"
                        onClick={openWidget}
@@ -63,6 +64,7 @@ const VideoCloud = () =>{
                 autoPlay
                 height="300"
                 width="250"
+                getByTestId="video"
               ></video>
             </>
           )}
