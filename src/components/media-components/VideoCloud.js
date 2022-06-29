@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
@@ -8,13 +8,14 @@ const VideoCloud = () =>{
   const [alt, setAlt] = useState(null);
 
   const openWidget = () => {
+    
     const widget = window.cloudinary.createUploadWidget(
       {
-        cloudName: "binar-cloud",
-        uploadPreset: "lznoc89x"
+        cloudName: 'binar-cloud',
+        uploadPreset: 'lznoc89x'
       },
       (error, result) => {
-        if (result.event === "success") {
+        if (result.event === 'success') {
           console.log(result.info);
           if (result.info.is_audio === true) {
             setAudioPublicId(result.info.public_id);
@@ -25,9 +26,9 @@ const VideoCloud = () =>{
           }
         }
       }
-    )
+    );
     widget.open();
-  }
+  };
 
   return (
     <HelmetProvider>
@@ -39,6 +40,7 @@ const VideoCloud = () =>{
                   <script
                     src="https://widget.cloudinary.com/v2.0/global/all.js"
                     type="text/javascript"
+                    async
                   ></script>
                   </Helmet>
                 <form>
@@ -51,7 +53,7 @@ const VideoCloud = () =>{
                     </button>
           </form>
             </section>
-            < section>
+            < section data-testid="videoPublicId">
             {videoPublicId && (
             <>
               <video
@@ -69,7 +71,8 @@ const VideoCloud = () =>{
         </main>
     </div>
     </HelmetProvider>
-  )
-}
+  );
+};
 
-export default VideoCloud
+export default VideoCloud;
+
